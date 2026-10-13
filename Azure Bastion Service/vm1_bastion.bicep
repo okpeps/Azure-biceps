@@ -1,4 +1,4 @@
-param location string = 'westeurope'
+param location string = 'eastus'
 
 // 1. Create the NSG FIRST so it exists in the context for resources below it
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
