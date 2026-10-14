@@ -33,8 +33,8 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
         }
       }
       {
-        name: 'Allow-RDP'
-        properties: {
+          name: 'Allow-RDP'
+          properties: {
           priority: 1020
           protocol: 'Tcp'
           access: 'Allow'
@@ -43,6 +43,19 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
           sourcePortRange: '*'
           destinationAddressPrefix: '*'
           destinationPortRange: '3389'
+        }
+      }
+            {
+          name: 'Allow-HTTPS'
+          properties: {
+          priority: 1030
+          protocol: 'Tcp'
+          access: 'Allow'
+          direction: 'Inbound'
+          sourceAddressPrefix: '*'
+          sourcePortRange: '*'
+          destinationAddressPrefix: '*'
+          destinationPortRange: '443'
         }
       }
     ]
