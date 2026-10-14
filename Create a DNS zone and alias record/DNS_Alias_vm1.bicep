@@ -63,7 +63,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2023-11-01' = {
         properties: {
           privateIPAllocationMethod: 'Dynamic'
           subnet: {
-            id: resourceId('Microsoft.Network/virtualNetworks/subnets', 'mywhiznet', 'Subnet1')
+            id: resourceId('Microsoft.Network/virtualNetworks/subnets', 'myPIPVnet', 'WebSubnet')
           }
         }
       }
