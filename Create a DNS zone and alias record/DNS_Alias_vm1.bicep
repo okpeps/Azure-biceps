@@ -62,19 +62,36 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
   }
 }
 
+// 1.1 ADD A PUBLIC IP RESOURCE
+resource publicIp 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
+  name: 'myWhizlabsVM1-ip'
+  location: location
+  sku: {
+    name: 'Standard'
+    tier: 'Regional'
+  }
+  properties: {
+    publicIPAllocationMethod: 'Static'
+  }
+}
+
 // 2. Every VM needs a Network Interface (NIC)
 resource networkInterface 'Microsoft.Network/networkInterfaces@2023-11-01' = {
   name: 'nic1'
   location: location
   properties: {
     networkSecurityGroup: {
-      id: nsg.id // This now works because 'nsg' is defined above!
+      id: nsg.id 
     }
     ipConfigurations: [
       {
         name: 'ipconfig1'
         properties: {
           privateIPAllocationMethod: 'Dynamic'
+          // LINK THE PUBLIC IP HERE
+          publicIPAddress: {
+            id: publicIp.id
+          }
           subnet: {
             id: resourceId('Microsoft.Network/virtualNetworks/subnets', 'myPIPVnet', 'WebSubnet')
           }
