@@ -93,7 +93,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2023-11-01' = {
             id: publicIp.id
           }
           subnet: {
-            id: resourceId('Microsoft.Network/virtualNetworks/subnets', 'myPIPVnet', 'WebSubnet')
+            id: resourceId('Microsoft.Network/virtualNetworks/subnets', 'whizVnet', 'whizSubnet')
           }
         }
       }
@@ -103,14 +103,14 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2023-11-01' = {
 
 // 3. The Virtual Machine
 resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-03-01' = {
-  name: 'myWhizlabsVM1'
+  name: 'whizvm'
   location: location
   properties: {
     hardwareProfile: {
       vmSize: 'Standard_B2s'
     }
     osProfile: {
-      computerName: 'myWhizlabsVM1'
+      computerName: 'whizvm'
       adminUsername: 'okpeps'
       adminPassword: 'Chewallera29!' 
     }
