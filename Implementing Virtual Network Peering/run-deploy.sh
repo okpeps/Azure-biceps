@@ -8,5 +8,5 @@ az login -u "$WhizlabsLabStudentRole-lab-398-2294902-c2bb6559@instructorwhizlabs
 echo "🚀 Deploying VNet to $WHIZ_RG..."
 az deployment group create \
   --resource-group "$WHIZ_RG" \
-  --template-file ./vnet.bicep \
+  --template-file ./vnet_template.bicep \
   --parameters @./vnet.parameters.yaml
