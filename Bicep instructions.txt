@@ -31,6 +31,9 @@ use the ./run-deploy.sh script and then the bicepparam file:
 Example
  (main) $ ./run-deploy.sh ./vnet1.bicepparam
 
+ #check the vnet peering state:
+ az network vnet list | grep -E "name|peeringState"
+
 
 
 
