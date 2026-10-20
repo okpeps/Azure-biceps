@@ -45,9 +45,10 @@ param adminPasswordOrKey string
 
 // 1. Reference your existing Virtual Network
 resource targetVnet 'Microsoft.Network/virtualNetworks@2023-11-01' existing = {
-  scope: resourceId(vnetResourceGroup, 'Microsoft.Network/virtualNetworks', vnetName)
+  scope: resourceGroup(vnetResourceGroup) // 👈 This correctly calls the resourceGroup function scope
   name: vnetName
 }
+
 
 // 2. Provision a dynamic Network Security Group with your rules
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
