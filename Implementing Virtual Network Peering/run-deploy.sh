@@ -14,9 +14,9 @@ fi
 echo "🔍 Fetching sandbox resource group name..."
 WHIZ_RG=$(az group list --query "[0].name" -o tsv)
 
-# 4. Deploy using whatever parameter file you passed into the script
+# 4. Deploy using ONLY the parameter file (Azure CLI will find the correct template automatically!)
 echo "🚀 Deploying network configuration using $PARAM_FILE to $WHIZ_RG..."
 az deployment group create \
   --resource-group "$WHIZ_RG" \
-  --template-file ./vnet_template.bicep \
   --parameters "$PARAM_FILE"
+
