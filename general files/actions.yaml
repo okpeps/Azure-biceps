@@ -1,0 +1,7 @@
+      - name: Run Bicep File      # 3. THE CORE STEP: Execute the Bicep template
+        uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          template: ./vnet_template.bicep   # Your main architecture blueprint
+          parameters: ./vnet.bicepparam      # ADD THIS line to supply your configurations!
+

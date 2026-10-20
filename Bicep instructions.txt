@@ -35,6 +35,9 @@ Example
  #check the vnet peering state:
  az network vnet list | grep -E "name|peeringState"
 
+ #check the vm IP addresses
+ az vm list-ip-addresses | grep -E "name|ipAddress"
+
 
 
 
