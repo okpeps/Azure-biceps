@@ -8,8 +8,8 @@ param osType = 'Windows' // 👈 Added: Can be 'Windows' or 'Linux'
 
 // Network Targeting Configuration 
 param vnetResourceGroup = 'lab-398-2294902-6080aad0'
-param vnetName = 'vnet1'
-param subnetName = 'default2'
+param vnetName = 'whizNet1'
+param subnetName = 'SubnetA'
 
 // Storage Configuration
 param osDiskSizeGB = 127
