@@ -7,7 +7,6 @@ param vmSize = 'Standard_B2s'
 param osType = 'Windows' // 👈 Added: Can be 'Windows' or 'Linux'
 
 // Network Targeting Configuration 
-param vnetResourceGroup = 'lab-398-2294902-6080aad0'
 param vnetName = 'whizNet2'
 param subnetName = 'SubnetB'
 

@@ -45,7 +45,7 @@ param adminPasswordOrKey string
 
 // 1. Reference your existing Virtual Network
 resource targetVnet 'Microsoft.Network/virtualNetworks@2023-11-01' existing = {
-  scope: resourceGroup(vnetResourceGroup)
+  scope: resourceGroup() // 👈 Removing the variable tells Bicep to use the active lab RG automatically!
   name: vnetName
 }
 
