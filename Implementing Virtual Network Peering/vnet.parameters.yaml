@@ -4,10 +4,10 @@ parameters:
   location:
     value: eastus
   vnetName:
-    value: whizVnet
+    value: whizNet1
   vnetAddressPrefix:
-    value: 10.2.0.0/16
+    value: 10.1.0.0/16
   subnetName:
-    value: whizSubnet
+    value: SubnetA
   subnetAddressPrefix:
-    value: 10.2.0.0/24
+    value: 10.1.0.0/24
