@@ -1,14 +1,14 @@
 using 'vm_template.bicep'
 
 // Region & Basic Naming Configs
-param location = 'westeurope'
-param vmName = 'vm2'
+param location = 'eastus'
+param vmName = 'vm1'
 param vmSize = 'Standard_B2s'
 param osType = 'Windows' // 👈 Added: Can be 'Windows' or 'Linux'
 
 // Network Targeting Configuration 
-param vnetName = 'whizNet2'
-param subnetName = 'SubnetB'
+param vnetName = 'whizNet1'
+param subnetName = 'SubnetA'
 
 // Storage Configuration
 param osDiskSizeGB = 127
