@@ -1,4 +1,4 @@
-metadata description = 'A generic, reusable Bicep template that dynamically supports both Windows and Linux deployments with custom NSGs.'
+metadata description = 'A generic, reusable Bicep template that adds a Public IP for RDP access and supports both Windows and Linux deployments.'
 
 @description('The Azure region where the resources will be deployed.')
 param location string
@@ -45,12 +45,11 @@ param adminPasswordOrKey string
 
 // 1. Reference your existing Virtual Network
 resource targetVnet 'Microsoft.Network/virtualNetworks@2023-11-01' existing = {
-  scope: resourceGroup(vnetResourceGroup) // 👈 This correctly calls the resourceGroup function scope
+  scope: resourceGroup(vnetResourceGroup)
   name: vnetName
 }
 
-
-// 2. Provision a dynamic Network Security Group with your rules
+// 2. Provision a dynamic Network Security Group with your rules (Ports 80, 22, 3389)
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
   name: '${vmName}-nsg'
   location: location
@@ -99,7 +98,20 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
   }
 }
 
-// 3. Generate the Network Interface Card (NIC) and attach the NSG
+// 3. ADDED: Create the Public IP resource for external connectivity
+resource publicIp 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
+  name: '${vmName}-ip'
+  location: location
+  sku: {
+    name: 'Standard'
+    tier: 'Regional'
+  }
+  properties: {
+    publicIPAllocationMethod: 'Static'
+  }
+}
+
+// 4. Generate the Network Interface Card (NIC), binding the NSG and the new Public IP
 resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
   name: '${vmName}-nic'
   location: location
@@ -115,26 +127,17 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
           subnet: {
             id: '${targetVnet.id}/subnets/${subnetName}'
           }
+          // Linked the public IP address block here
+          publicIPAddress: {
+            id: publicIp.id
+          }
         }
       }
     ]
   }
 }
 
-// 1.1 ADD A PUBLIC IP RESOURCE
-resource publicIp 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
-  name: 'myWhizlabsVM1-ip'
-  location: location
-  sku: {
-    name: 'Standard'
-    tier: 'Regional'
-  }
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-}
-
-// 4. Provision the baseline compute engine with dynamic OS parameters
+// 5. Provision the baseline compute engine
 resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: vmName
   location: location
@@ -146,7 +149,6 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
       computerName: vmName
       adminUsername: adminUsername
       adminPassword: adminPasswordOrKey
-      // Uses a conditional check: configuration is ONLY attached if deploying a Linux image
       linuxConfiguration: (osType == 'Linux') ? {
         disablePasswordAuthentication: false
       } : null
@@ -184,4 +186,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   }
 }
 
+// Outputs to quickly catch the connection details after deployment completes
 output vmId string = vm.id
+output publicIpAddress string = publicIp.properties.ipAddress
+
