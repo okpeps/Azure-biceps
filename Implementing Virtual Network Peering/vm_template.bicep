@@ -16,8 +16,6 @@ param vmSize string
 ])
 param osType string
 
-@description('The name of the resource group where the target VNet is hosted.')
-param vnetResourceGroup string
 
 @description('The name of the target Virtual Network.')
 param vnetName string
