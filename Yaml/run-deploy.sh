@@ -1,5 +1,5 @@
 #!/bin/bash
-
+WHIZ_RG=$(az group list --query "[0].name" -o tsv) #get the resource group
 # 1. Log in to the current Azure sandbox session
 echo "🔐 Logging into Azure..."
 az login -u "$AZ_USER" -p "$AZ_PASS"
