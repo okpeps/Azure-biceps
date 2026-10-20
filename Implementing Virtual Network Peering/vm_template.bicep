@@ -121,6 +121,19 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
   }
 }
 
+// 1.1 ADD A PUBLIC IP RESOURCE
+resource publicIp 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
+  name: 'myWhizlabsVM1-ip'
+  location: location
+  sku: {
+    name: 'Standard'
+    tier: 'Regional'
+  }
+  properties: {
+    publicIPAllocationMethod: 'Static'
+  }
+}
+
 // 4. Provision the baseline compute engine with dynamic OS parameters
 resource vm 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: vmName
