@@ -25,6 +25,13 @@ az deployment group create --resource-group $WHIZ_RG --template-file vm2.bicep
 
 az deployment group create --resource-group $WHIZ_RG --template-file vm2-fw-rules.bicep
 
+-----------------------last update --------------------------------------
+
+use the ./run-deploy.sh script and then the bicepparam file:
+Example
+ (main) $ ./run-deploy.sh ./vnet1.bicepparam
+
+
 
 
 
