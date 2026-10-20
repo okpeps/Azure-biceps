@@ -1,0 +1,21 @@
+# This lives in: .github/workflows/deploy.yaml
+name: Run My Bicep File
+
+on: [push] # Run automatically whenever you push code
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # 1. Get your code files
+
+      - name: Log in to Azure
+        uses: azure/login@v2      # 2. Authenticate to your lab
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Run Bicep File      # 3. THE CORE STEP: Execute the Bicep template
+        uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          template: ./vnet_template.bicep   # Your YAML file points directly to your Bicep file!
