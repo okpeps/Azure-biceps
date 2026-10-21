@@ -4,23 +4,20 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows you to trigger the deployment manually
+  workflow_dispatch: 
 
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Check out all your repository files
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Authenticate to Azure using your pipeline credentials
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step 3: Discover the dynamic sandbox resource group name from Whizlabs
       - name: Discover Sandbox Resource Group
         id: get_rg
         run: |
@@ -29,39 +26,35 @@ jobs:
           echo "RESOURCE_GROUP=$WHIZ_RG" >> $GITHUB_ENV
           echo "🚀 Targeted Resource Group: $WHIZ_RG"
 
-      # Step 4: Provision Virtual Network 1 (whizNet1)
       - name: Deploy VNet 1 (whizNet1)
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --parameters ./vnet.bicepparam
 
-      # Step 5: Provision Virtual Network 2 (whizNet2)
       - name: Deploy VNet 2 (whizNet2)
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --parameters ./vnet1.bicepparam
 
-      # Step 6: Link both networks via the VNet Peering template
       - name: Establish VNet Peering
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vnet_peering.bicepparam
+            --parameters ./peering.bicepparam
 
-      # Step 7: Provision Virtual Machine 1 (vm1) into whizNet1 / SubnetA
       - name: Deploy VM 1
+        run: |
+          az deployment group create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --parameters ./vm.bicepparam
+
+      - name: Deploy VM 2
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --parameters ./vm1.bicepparam
 
-      # Step 8: Provision Virtual Machine 2 (vm2) into whizNet2 / SubnetB
-      - name: Deploy VM 2
-        run: |
-          az deployment group create \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vm2.bicepparam
 
 
