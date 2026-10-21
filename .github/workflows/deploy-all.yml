@@ -30,31 +30,28 @@ jobs:
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vnet.bicepparam
+            --parameters "./Implementing Virtual Network Peering/vnet.bicepparam"
 
       - name: Deploy VNet 2 (whizNet2)
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vnet1.bicepparam
+            --parameters "./Implementing Virtual Network Peering/vnet1.bicepparam"
 
       - name: Establish VNet Peering
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./peering.bicepparam
+            --parameters "./Implementing Virtual Network Peering/peering.bicepparam"
 
       - name: Deploy VM 1
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vm.bicepparam
+            --parameters "./Implementing Virtual Network Peering/vm.bicepparam"
 
       - name: Deploy VM 2
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --parameters ./vm1.bicepparam
-
-
-
+            --parameters "./Implementing Virtual Network Peering/vm1.bicepparam"
